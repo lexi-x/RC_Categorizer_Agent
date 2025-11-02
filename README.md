@@ -1,4 +1,4 @@
-# Gemini Agent
+# RC Transaction Categorizer Agent (Using Gemini)
 
 This short guide explains, how to run the Gemini agent script in this folder. It uses Windows Powershell commands, but the syntax should be largely the same or similar to Mac and Linux. 
 
