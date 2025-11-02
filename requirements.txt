@@ -1,0 +1,5 @@
+python-dotenv
+pandas
+openpyxl
+langchain
+langchain-google-genai
