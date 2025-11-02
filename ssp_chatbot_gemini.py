@@ -66,7 +66,7 @@ df = pd.read_excel(INPUT_FILE)
 if not {"Company Name", "Description"}.issubset(df.columns):
     raise ValueError("Input file must contain 'Company Name' and 'Description' columns")
 
-# specify start and end rows here
+# Specify start and end rows here
 START_ROW = 0
 END_ROW = 3800
 
@@ -85,7 +85,7 @@ for i in range(START_ROW, END_ROW):
     
     category = response.content.strip()
 
-    # offset on excel indices
+    # Offset to fit excel indices
     ws.cell(i + 2, 4).value = category  
     wb.save(OUTPUT_FILE)
     print(f"Done {i}")
