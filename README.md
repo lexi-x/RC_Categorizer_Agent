@@ -4,6 +4,8 @@ This short guide explains, how to run the Gemini agent script in this folder. It
 
 ## Overview
 
+This project takes supplier names and descriptions in Excel from and categorizes them using the Google Gemini LLM. It is a working product developed by Rice Consulting for client use. This program takes very specific inputs in terms of Excel formatting and outputs, but it is easily modifiable and customizable if you follow this guide. Please don't hesitate to reach out for any questions!
+
 The project contains a Python script that connects to Google Gemini via API. The script needs a secret API key to work. Instead of typing the key into the terminal every time, we recommend keeping it in a small file named `.env` so the program can read it automatically. An example is provided in `.env.example`
 
 Important: keep your API key private. Do not share the `.env` file or upload it to the internet.
@@ -11,9 +13,9 @@ Important: keep your API key private. Do not share the `.env` file or upload it 
 ## Set Up
 
 1) We recommend downloading VSCode or IntelliJ for a more intuitive code editor to modify the files if necessary, but it can also be done purely on command line. 
-    - The program expects a variable called `GOOGLE_API_KEY` in the `.env` file. Make a copy of the `.env.example` and replace it with your actual API key.
 
-2) Create a file named `.env` in the project folder and put your API key inside. 
+2) Make a `.env` in the project folder and put your API key inside.
+	- The program expects a variable called `GOOGLE_API_KEY` in the `.env` file. Make a copy of the `.env.example` and replace it with your actual API key.
 
 3) Install the packages outlined in requirements.txt.
 
@@ -40,10 +42,16 @@ Important: keep your API key private. Do not share the `.env` file or upload it 
 2. Specify the desired categories in the `Categories` list. The categories should be as specific and concise as possible, as the agent accuracy decreases when given categories with multiple elements.
     - For example, "marketing/communications" would be a better category than "publicity, outreach, and communication"
 
-3. Change `START_ROW` and `END_ROW` to specify which Excel rows need to be processed. The code assumes zero-indexing, which means the first row of the Excel would be denote "0", and the appropriate offset is added later when writing to the Excel. 
-    - For example, if you put 0 to 100, the agent would write to Excel rows 1 through 101.
+3. Change `START_ROW` and `END_ROW` to specify which Excel rows need to be processed. The code assumes zero-indexing, which means the first row of the Excel would be denoted "0", and the appropriate offset is added later when writing to the Excel. 
+    - For example, if you put 0 to 100, the agent would write to Excel rows 2 through 102 (assuming row 1 is for column labeling). If this offset is not desired, change the constant in this line
+      ```
+      ws.cell(i + 2, 4).value = category
+      ```
+      
+4. Verify the Excel indexing matches what is expected. To run the agent, the input MUST have columns labeled with `Company Name` and `Description`. It assumes a column of extra space for other categories (spend, dates, etc.) so the agent writes to **column 4** of the output Excel. You can change this by editing the second value specified in the code snippet above.
+	- For data integrity reasons, the agent only writes category information and will not replicate other columns from `INPUT_FILE`, so I recommend either setting `INPUT_FILE` and `OUTPUT_FILE` to the same file or copying the content of `INPUT_FILE` into `OUTPUT_FILE` if you want a complete sheet afterwards. 
 
-4. Run the Gemini agent script in terminal using the command
+5. Run the Gemini agent script in terminal using the command
 
     ```
     python .\ssp_chatbot_gemini.py
@@ -51,7 +59,7 @@ Important: keep your API key private. Do not share the `.env` file or upload it 
 	- The program will add a category column with values in the rows specified above. It is designed to print a message every time one row is done. If you would like to disable this feature, comment out the last line of the program by adding # in front of it. 
     - Before running it, make sure the files being inputted are not open on your desktop, as Python cannot edit actively open files. 
 
-5. IMPORTANT WARNINGS:
+6. IMPORTANT WARNINGS:
     - DO NOT close the program in the middle of running it, as this risks corrupting the entire Excel file if it is in the middle of writing it.
     - If you must terminate the program (Ctrl/Cmd + C) while it is running, make a copy of your excel first to prevent losing data.
     - If using VSCode or IntelliJ, the program will not be affected by turning off/on your computer and will safely pause execution, but you should not hard-terminate in command line.
