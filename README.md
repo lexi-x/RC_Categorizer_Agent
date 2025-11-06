@@ -14,10 +14,17 @@ Important: keep your API key private. Do not share the `.env` file or upload it 
 
 1) We recommend downloading VSCode or IntelliJ for a more intuitive code editor to modify the files if necessary, but it can also be done purely on command line. 
 
-2) Make a `.env` in the project folder and put your API key inside.
+2) Clone the repository in your editor of choice by running this in terminal:
+   
+	```
+	 git clone https://github.com/lexi-x/RC_Categorizer_Agent.git
+	 ```
+ 	- You will be prompted to select the folder location in your device. After cloning, open up the `ssp_chatbot_gemini.py` file to access the code.
+
+4) Make a `.env` in the project folder and put your API key inside.
 	- The program expects a variable called `GOOGLE_API_KEY` in the `.env` file. Make a copy of the `.env.example` and replace it with your actual API key.
 
-3) Install the packages outlined in requirements.txt.
+5) Install the packages outlined in requirements.txt.
 
     - You can install the packages one-by-one, or install everything listed in `requirements.txt` at once by running this command in terminal:
 
@@ -28,6 +35,7 @@ Important: keep your API key private. Do not share the `.env` file or upload it 
     - If `pip` is not found, you should download the pip package installer from google and add it to your system environment variables (tutorial on the pip site). Otherwise, you should also be able to install the packages manually from Google.
 
     - Optionally, you can also initialize a virtual environment to isolate dependencies with
+      
         ```
         python -m venv venv
         .\venv\Scripts\Activate.ps1
@@ -44,6 +52,7 @@ Important: keep your API key private. Do not share the `.env` file or upload it 
 
 3. Change `START_ROW` and `END_ROW` to specify which Excel rows need to be processed. The code assumes zero-indexing, which means the first row of the Excel would be denoted "0", and the appropriate offset is added later when writing to the Excel. 
     - For example, if you put 0 to 100, the agent would write to Excel rows 2 through 102 (assuming row 1 is for column labeling). If this offset is not desired, change the constant in this line
+      
       ```
       ws.cell(i + 2, 4).value = category
       ```
